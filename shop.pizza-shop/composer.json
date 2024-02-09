@@ -17,8 +17,8 @@
   "autoload": {
     "psr-4" : {
       "pizzashop\\tests\\": "./tests/",
-      "pizzashop\\shop\\" : "./src/"
-
+      "pizzashop\\shop\\" : "./src/",
+      "pizzashop\\logs\\" : "./logs/"
     }
   }
 }
