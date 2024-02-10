@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Container\ContainerInterface;
 use pizzashop\auth\api\domain\dto\CredentialsDTO;
+use pizzashop\auth\api\helpers\ResponseFormatter;
 
 final class SignupAction {
 
@@ -47,7 +48,7 @@ final class SignupAction {
             ];
             $statusCode = 401;
 
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
         }else {
             // Une fois les informations obtenu on peut essayer d'enregistrer le nouvel utilisateur dans la base de données
             try{
@@ -63,7 +64,7 @@ final class SignupAction {
                 ];
                 $statusCode = 200;
 
-                return $this->formatResponse($response, $responseData, $statusCode);
+                return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
             }catch (SaveUserException $e){
                 $responseData = [
                     'status' => 'error',
@@ -71,7 +72,7 @@ final class SignupAction {
                 ];
                 $statusCode = 401;
 
-                return $this->formatResponse($response, $responseData, $statusCode);
+                return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
             }catch (Exception $e){
                 $responseData = [
                     'status' => 'error',
@@ -80,16 +81,8 @@ final class SignupAction {
                 ];
                 $statusCode = 401;
 
-                return $this->formatResponse($response, $responseData, $statusCode);
+                return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
             }
         }
-    }
-
-    private function formatResponse(Response $response, array $responseData, int $statusCode) {
-        $response->getBody()->write(json_encode($responseData, JSON_UNESCAPED_UNICODE));
-
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus($statusCode);
     }
 }

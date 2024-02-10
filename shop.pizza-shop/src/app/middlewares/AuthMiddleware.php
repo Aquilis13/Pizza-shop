@@ -42,9 +42,8 @@ class AuthMiddleware {
                 'headers'=> ['Authorization' => $header]
             ]);
         } catch (RequestException $e){
-            var_dump($e->message);
+            throw new RequestException();
         } catch (Exception $e) {
-            var_dump($e->message);
             throw new InvalidTokenException('Le token fournis est invalide.');
         }
 

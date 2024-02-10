@@ -8,6 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Container\ContainerInterface;
 use pizzashop\auth\api\domain\entities\User;
 use pizzashop\auth\api\domain\dto\CredentialsDTO;
+use pizzashop\auth\api\helpers\ResponseFormatter;
 
 final class SigninAction {
 
@@ -48,7 +49,7 @@ final class SigninAction {
             ];
             $statusCode = 401;
 
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
         }else {
             // Une fois les informations obtenu on peut essayer d'authentifier l'utilisateur
             try{
@@ -76,7 +77,7 @@ final class SigninAction {
                 ];
                 $statusCode = 200;
 
-                return $this->formatResponse($response, $responseData, $statusCode);
+                return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
             }catch (Exception $e){
                 $responseData = [
                     'status' => 'error',
@@ -85,16 +86,8 @@ final class SigninAction {
                 ];
                 $statusCode = 401;
 
-                return $this->formatResponse($response, $responseData, $statusCode);
+                return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
             }
         }
-    }
-
-    private function formatResponse(Response $response, array $responseData, int $statusCode) {
-        $response->getBody()->write(json_encode($responseData, JSON_UNESCAPED_UNICODE));
-
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus($statusCode);
     }
 }

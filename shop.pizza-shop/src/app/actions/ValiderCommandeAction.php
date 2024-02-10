@@ -9,6 +9,7 @@ use pizzashop\shop\domain\service\commande\ServiceCommande;
 use pizzashop\shop\domain\dto\commande\CommandeDTO;
 use pizzashop\shop\domain\entities\commande\Commande;
 use pizzashop\logs\CommandeLogger;
+use pizzashop\shop\helpers\ResponseFormatter;
 
 final class ValiderCommandeAction {
 
@@ -38,7 +39,7 @@ final class ValiderCommandeAction {
                 $statusCode = 400;
             }
 
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
         } catch (ServiceCommandeNotFoundException $e) {
             $responseData = [
                 'status' => 'error',
@@ -46,7 +47,7 @@ final class ValiderCommandeAction {
             ];
             $statusCode = 404;
 
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
         }catch (Exception $e) {
             $responseData = [
                 'status' => 'error',
@@ -55,7 +56,7 @@ final class ValiderCommandeAction {
             ];
             $statusCode = 500;
 
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
         }
     }
 

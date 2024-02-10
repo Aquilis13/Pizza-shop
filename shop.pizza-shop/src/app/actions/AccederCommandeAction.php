@@ -8,6 +8,7 @@ use Psr\Container\ContainerInterface;
 use pizzashop\shop\domain\service\commande\commandeService;
 use pizzashop\shop\domain\dto\commande\CommandeDTO;
 use pizzashop\shop\domain\exceptions\ServiceCommandeNotFoundException;
+use pizzashop\shop\helpers\ResponseFormatter;
 
 final class AccederCommandeAction {
 
@@ -30,7 +31,7 @@ final class AccederCommandeAction {
             ];
             $statusCode = 200;
 
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
 
         } catch (ServiceCommandeNotFoundException $e) {
             $responseData = [
@@ -39,7 +40,7 @@ final class AccederCommandeAction {
             ];
             $statusCode = 404;
 
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
             
         } catch (\Exception $e) {
             $responseData = [
@@ -49,15 +50,7 @@ final class AccederCommandeAction {
             ];
             $statusCode = 500;
 
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
         }
-    }
-
-    private function formatResponse(Response $response, array $responseData, int $statusCode) {
-        $response->getBody()->write(json_encode($responseData, JSON_UNESCAPED_UNICODE));
-
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus($statusCode);
     }
 }

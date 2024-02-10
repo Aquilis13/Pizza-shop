@@ -9,6 +9,7 @@ use Psr\Container\ContainerInterface;
 use pizzashop\shop\domain\service\commande\commandeService;
 use pizzashop\shop\domain\dto\commande\CommandeDTO;
 use pizzashop\shop\domain\entities\commande\Commande;
+use pizzashop\shop\helpers\ResponseFormatter;
 use \Datetime;
 
 final class CreerCommandeAction {
@@ -26,7 +27,7 @@ final class CreerCommandeAction {
             $currentDate = new DateTime();
 
             if ($commandeData === null && json_last_error() !== JSON_ERROR_NONE) {
-                $responsecommandeData = [
+                $responseData = [
                     'status' => 'error',
                     'message' => 'Bad Request - Corps de la requête invalide.',
                     'detail' => json_last_error_msg()
@@ -63,39 +64,31 @@ final class CreerCommandeAction {
 
                 $commandeDTO = $commandeService->creerCommande($newCommande);
 
-                $responsecommandeData = [
+                $responseData = [
                     'status' => 'success',
                     'message' => 'Les données ont était ajoutés à la base de données avec succès.'
                 ];
                 $statusCode = 201;
             }
 
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
         } catch (ServiceException $e) {
-            $responsecommandeData = [
+            $responseData = [
                 'status' => 'error',
                 'message' => 'Bad Request - Données manquantes ou invalides.',
             ];
             $statusCode = 400;
 
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
         } catch (Exception $e) {
-            $responsecommandeData = [
+            $responseData = [
                 'status' => 'error',
                 'message' => 'Erreur interne du serveur',
                 'exception' => $e,
             ];
             $statusCode = 500;
 
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
         }
-    }
-
-    private function formatResponse(Response $response, array $responseData, int $statusCode) {
-        $response->getBody()->write(json_encode($responseData, JSON_UNESCAPED_UNICODE));
-
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus($statusCode);
     }
 }

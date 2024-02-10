@@ -7,6 +7,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Container\ContainerInterface;
 use pizzashop\auth\api\domain\dto\TokenDTO;
+use pizzashop\auth\api\helpers\ResponseFormatter;
 
 final class RefreshTokenAction {
 
@@ -27,7 +28,7 @@ final class RefreshTokenAction {
             ];
             $statusCode = 401;
             
-            return $this->formatResponse($response, $responseData, $statusCode);
+            return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
         }else{
             try{
                 $authorizationHeader = $header[0];
@@ -44,7 +45,7 @@ final class RefreshTokenAction {
                 ];
                 $statusCode = 200;
 
-                return $this->formatResponse($response, $responseData, $statusCode);
+                return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
             } catch(Firebase\JWT\ExpiredException $e){
                 $responseData = [
                     'status' => 'error',
@@ -53,7 +54,7 @@ final class RefreshTokenAction {
                 ];
                 $statusCode = 401;
            
-                return $this->formatResponse($response, $responseData, $statusCode);
+                return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
             }catch (Exception $e){
                 $responseData = [
                     'status' => 'error',
@@ -62,7 +63,7 @@ final class RefreshTokenAction {
                 ];
                 $statusCode = 401;
 
-                return $this->formatResponse($response, $responseData, $statusCode);
+                return ResponseFormatter::formatResponse($response, $responseData, $statusCode);
             }            
         }
     }
