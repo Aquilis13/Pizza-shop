@@ -2,6 +2,8 @@ version: '3'
 networks:
   pizza-shop.net:
     driver: bridge
+  mynet.net:
+    driver: bridge
 services:
 
   # service api.pizza-shop : api pour la prise de commandes
@@ -143,3 +145,23 @@ services:
           - gateway.pizza-shop.local
     depends_on:
       - pizza-shop.catalogue.db
+
+#######################################
+### RabbitMQ Service
+###
+#######################################
+  rabbitmq:
+    image: rabbitmq:3-management
+    env_file: 
+      - ./.env
+      - ./rabbit.env
+    ports:
+      - '15672:15672'
+      - '${RABBIT_PORT}:5672'
+    networks:
+      - mynet.net
+    volumes:
+      - ./rabbitmq_dir:/var/lib/rabbitmq
+    environment:
+      - RABBITMQ_DEFAULT_USER=admin
+      - RABBITMQ_DEFAULT_PASS=@dm1#!

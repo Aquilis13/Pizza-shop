@@ -61,12 +61,4 @@ final class ValidateTokenAction {
             }            
         }
     }
-
-    private function formatResponse(Response $response, array $responseData, int $statusCode) {
-        $response->getBody()->write(json_encode($responseData, JSON_UNESCAPED_UNICODE));
-
-        return $response
-            ->withHeader('Content-Type', 'application/json')
-            ->withStatus($statusCode);
-    }
 }

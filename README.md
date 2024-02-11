@@ -47,3 +47,37 @@
 - **Actualisation d'un Token :**  
     Endpoint: http://0.0.0.0:8000/api/users/refresh  
     Method: POST  
+
+# TD8
+## Localisation
+- [Exercice 1](https://github.com/Aquilis13/Pizza-shop/blob/main/shop.pizza-shop/script_rabbitmq/exercice1.php)
+- [Exercice 2](https://github.com/Aquilis13/Pizza-shop/blob/main/shop.pizza-shop/script_rabbitmq/exercice2.php)
+- [Exercice 3](https://github.com/Aquilis13/Pizza-shop/blob/main/shop.pizza-shop/script_rabbitmq/exercice3.php)
+
+## Prerequis
+Pour pouvoir executer les scripts :  
+```
+docker compose up -d
+docker compose exec api.pizza-shop bash
+```
+
+## Script php
+Dans le container à partir de ``var/www/`` :  
+```
+cd script_rabbitmq
+```
+
+**Executer le script de l'exercice 1 :**
+```
+php exercice1.php
+```
+
+**Executer le script de l'exercice 2 :**
+```
+php exercice2.php
+```
+
+**Executer le script de l'exercice 3 :**
+```
+php exercice3.php
+```

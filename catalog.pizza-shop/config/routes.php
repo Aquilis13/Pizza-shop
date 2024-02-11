@@ -14,4 +14,7 @@ return function(\Slim\App $app):void {
 
     $app->get('/categories/{id_categorie}/produits[/]', \pizzashop\catalog\app\actions\AccederProduitByCategorie::class)
         ->setName('produit_categorie');
+
+    $app->get('/produits/?mot-cle={mot_cle}[/]', pizzashop\gateway\app\actions\ProduitsByMotCleAction::class)
+        ->setName('produits_motcle');
 };

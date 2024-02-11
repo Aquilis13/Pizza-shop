@@ -10,7 +10,6 @@ use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 return function(\Slim\App $app):void {
-    $container = $app->getContainer();
 
     // Routes de l'API Commande :
     $app->post('/commandes[/]', pizzashop\gateway\app\actions\CommandeAction::class)
@@ -32,6 +31,9 @@ return function(\Slim\App $app):void {
 
     $app->get('/categories/{id_categorie}/produits[/]', pizzashop\gateway\app\actions\CatalogAction::class)
         ->setName('produit_categorie');
+
+    $app->get('/produits/?mot-cle={mot_cle}[/]', pizzashop\gateway\app\actions\CatalogAction::class)
+        ->setName('produits_motcle');
 
 
     // Routes de l'API d'authentification :

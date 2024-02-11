@@ -70,6 +70,29 @@ class ServiceCatalog
         }
         
         foreach($produits as $produit){
+            array_push($produitsDTO, [
+                $this->formateProduitDTO($produit)
+            ]);
+        } 
+
+        return json_encode($produitsDTO, JSON_PRETTY_PRINT);
+    }
+
+    /**
+     * Retourne la liste des produits en fonction d'un mot clé présent dans le libelle ou la description
+     * 
+     */
+    public function accederProduitsByMotCle(string $motCle){
+        $produitsDTO = [];
+        $produits = Produit::where('libelle', 'like', "%$motCle%")
+                        ->orWhere('description', 'like', "%$motCle%")
+                        ->get();
+
+        if ($produits->isEmpty()) {
+            throw new ProductNotFoundException("Il n'y a aucun produit.");
+        }
+        
+        foreach($produits as $produit){
             $dto = $this->formateProduitDTO($produit);
 
             array_push($produitsDTO, [
@@ -99,6 +122,7 @@ class ServiceCatalog
             $produit->getKey(),
             $produit['numero'],
             $produit['libelle'],
+            $produit['description'],
             ($produit->categorie)['libelle'],
             $tarifs
         );

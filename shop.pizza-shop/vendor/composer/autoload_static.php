@@ -21,6 +21,7 @@ class ComposerStaticInitac980eaa2610534d7968c15b9d11c5e7
         '72579e7bd17821bb1321b87411366eae' => __DIR__ . '/..' . '/illuminate/support/helpers.php',
         '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
         'b33e3d135e5d9e47d845c576147bda89' => __DIR__ . '/..' . '/php-di/php-di/src/functions.php',
+        'decc78cc4436b1292c6c0d151b19445c' => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib/bootstrap.php',
         '2df68f9e79c919e2d88506611769ed2e' => __DIR__ . '/..' . '/respect/stringifier/src/stringify.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'ec07570ca5a812141189b1fa81503674' => __DIR__ . '/..' . '/phpunit/phpunit/src/Framework/Assert/Functions.php',
@@ -37,6 +38,7 @@ class ComposerStaticInitac980eaa2610534d7968c15b9d11c5e7
             'pizzashop\\tests\\' => 16,
             'pizzashop\\shop\\' => 15,
             'pizzashop\\logs\\' => 15,
+            'phpseclib3\\' => 11,
         ),
         'S' => 
         array (
@@ -71,6 +73,8 @@ class ComposerStaticInitac980eaa2610534d7968c15b9d11c5e7
             'Psr\\Clock\\' => 10,
             'PhpParser\\' => 10,
             'PhpDocReader\\' => 13,
+            'PhpAmqpLib\\' => 11,
+            'ParagonIE\\ConstantTime\\' => 23,
         ),
         'M' => 
         array (
@@ -133,6 +137,10 @@ class ComposerStaticInitac980eaa2610534d7968c15b9d11c5e7
         'pizzashop\\logs\\' => 
         array (
             0 => __DIR__ . '/../..' . '/logs',
+        ),
+        'phpseclib3\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/phpseclib/phpseclib/phpseclib',
         ),
         'Symfony\\Polyfill\\Php80\\' => 
         array (
@@ -235,6 +243,14 @@ class ComposerStaticInitac980eaa2610534d7968c15b9d11c5e7
         'PhpDocReader\\' => 
         array (
             0 => __DIR__ . '/..' . '/php-di/phpdoc-reader/src/PhpDocReader',
+        ),
+        'PhpAmqpLib\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/php-amqplib/php-amqplib/PhpAmqpLib',
+        ),
+        'ParagonIE\\ConstantTime\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/paragonie/constant_time_encoding/src',
         ),
         'Monolog\\' => 
         array (
