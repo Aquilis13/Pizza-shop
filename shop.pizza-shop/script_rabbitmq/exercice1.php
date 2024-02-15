@@ -5,7 +5,7 @@
  * L'objet renvoyer par accederCommande est au format JSON
  * 
  */
-
+$host = '192.168.42.80';
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use pizzashop\shop\domain\service\commande\ServiceCommande;
@@ -39,10 +39,10 @@ $commandeService = new ServiceCommande();
 $commandeDtoInJSON = $commandeService->accederCommande($idCommande);
 
 $connection = new AMQPStreamConnection(
-    '192.168.42.80', 
+    $host, 
     5672, 
-    'user', 
-    'password'
+    'admin', 
+    '@dm1#!'
 );
 
 $msg_body = $commandeDtoInJSON;

@@ -2,8 +2,6 @@ version: '3'
 networks:
   pizza-shop.net:
     driver: bridge
-  mynet.net:
-    driver: bridge
 services:
 
   # service api.pizza-shop : api pour la prise de commandes
@@ -146,22 +144,88 @@ services:
     depends_on:
       - pizza-shop.catalogue.db
 
-#######################################
-### RabbitMQ Service
-###
-#######################################
+  #######################################
+  ### RabbitMQ Service
+  ###
+  #######################################
   rabbitmq:
     image: rabbitmq:3-management
-    env_file: 
-      - ./.env
-      - ./rabbit.env
     ports:
       - '15672:15672'
-      - '${RABBIT_PORT}:5672'
+      - '5672:5672'
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 8s
+      timeout: 30s
+      retries: 3
     networks:
-      - mynet.net
+      - pizza-shop.net
     volumes:
-      - ./rabbitmq_dir:/var/lib/rabbitmq
+      - ../rabbitmq.pizza-shop/data:/var/lib/rabbitmq
+    env_file: ./rab.env
+
+
+  #######################################
+  ###  Pour un service utilisant le serveur rabbitMQ
+  ###  on force l'attente du démarrage du serveur
+  #######################################
+  # myservice.use.rabbitMQ:
+  #   image: some_image
+  #   networks:
+  #     - pizza-shop.net
+  #   depends_on:
+  #     rabbitmq:
+  #         condition: service_healthy
+
+#######################################
+### nodejs Service
+###
+#######################################
+  api.service:
+    image: node:alpine
+    networks:
+      - pizza-shop.net
+    working_dir: /usr/app
+    command: sh -c "npm i && npm run watch" #for development only
+    #command: sh -c "npm i && npm start" #for production only
+    volumes:
+      - ../nodejs.pizza-shop:/usr/app
+    ports:
+      - 3333:3000
     environment:
-      - RABBITMQ_DEFAULT_USER=admin
-      - RABBITMQ_DEFAULT_PASS=@dm1#!
+      - PORT:3000
+      - NODE_ENV:development
+    depends_on:
+      - pizza-shop.node.db
+
+  pizza-shop.node.db:
+    image: 'mariadb:latest'
+    command: '--default-authentication-plugin=mysql_native_password --character-set-server=utf8 --collation-server=utf8_general_ci'
+    env_file: ./shop.env
+    ports:
+      - '3309:3306'
+    networks:
+      - pizza-shop.net
+    volumes:
+      - ../nodejs.pizza-shop/sql:/var/sql
+
+#######################################
+### Websockets Service
+###
+#######################################
+  websockets.service:
+    image: node:alpine
+    networks:
+      - pizza-shop.net
+    working_dir: /usr/app
+    command: sh -c "npm i && npm run watch" #for development only
+    #command: sh -c "npm i && npm start" #for production only
+    volumes:
+      - ../websockets.pizza-shop:/usr/app
+    ports:
+      - 7777:3000
+    environment:
+      - PORT:3000
+      - NODE_ENV:development
+    depends_on:
+      - pizza-shop.node.db

@@ -3,14 +3,14 @@
  * Consomme les message envoyer et les affiches dans la console
  * 
  */
-
+$host = '192.168.42.80';
 require_once __DIR__ . '/../vendor/autoload.php';
 
 use PhpAmqpLib\Connection\AMQPStreamConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
 $connection = new AMQPStreamConnection(
-    '192.168.42.80', 
+    $host, 
     5672, 
     'user', 
     'password'
