@@ -41,7 +41,7 @@ export class ServiceBrokerMessages {
                         if(socket == client_socket){
                             commandes.forEach(function (commande) {
                                 if (commande == data.id) {
-                                    client_socket.send('Votre commande est passée en état : ' + etatCommande);
+                                    client_socket.send('Votre commande n°'+data.id+' est passée en état : ' + etatCommande);
                                 }
                             });
                         }
